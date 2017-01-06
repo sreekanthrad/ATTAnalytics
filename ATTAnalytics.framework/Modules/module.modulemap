@@ -1,0 +1,10 @@
+framework module ATTAnalytics {
+  umbrella header "ATTAnalytics.h"
+
+  export *
+  module * { export * }
+}
+
+module ATTAnalytics.Swift {
+    header "ATTAnalytics-Swift.h"
+}
