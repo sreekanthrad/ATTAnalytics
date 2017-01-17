@@ -14,24 +14,17 @@ public class ATTAnalytics: NSObject {
     // MARK: Public members
     // MARK: Pubclic Constants
     public static let TrackingNotification = "RegisterForTrakingNotification"
-    /// This will be used if the Helper class need to receive Notifications on Crashes
     public static let CrashTrackingNotification = "RegisterForCrashTrakingNotification"
+    
+    // For Objective - C support since the converted framework not supporting swift enums
+    public static let TrackingTypeAuto = "Auto"
+    public static let TrackingTypeManual = "Manual"
     
     // MARK: Enums
     public enum TrackingTypes {
         case Automatic
         case Manual
     }
-    
-    public enum StateTrackingMethod {
-        case OnViewWillAppear
-        case OnViewWillDisappear
-        case OnViewDidAppear
-        case OnViewDidDisappear
-        case OnNothing
-    }
-    
-    public var stateTrackingMethod:StateTrackingMethod?
     
     // MARK: Private members
     enum StateTypes {
@@ -40,7 +33,6 @@ public class ATTAnalytics: NSObject {
     }
     
     private var configParser:ATTConfigParser?
-    private var notificationListener:ATTNotificationListener?
     private var configurationFilePath:String?
     private var stateChangeTrackingSelector:Selector?
     private let cacheDirectory = (NSSearchPathForDirectoriesInDomains(.cachesDirectory,
@@ -63,66 +55,67 @@ public class ATTAnalytics: NSObject {
     // MARK: deinit
     deinit {
         self.configParser = nil
-        self.notificationListener = nil
         self.configurationFilePath = nil
         self.stateChangeTrackingSelector = nil
     }
     
-    
     // MARK: Public Methods
-    public func startTrackingWithConfigurationFile(pathForFile:String?) -> Void {
-        self.startTrackingWithConfigurationFile(pathForFile: pathForFile,
-                                                stateTracking: .Manual,
-                                                stateTrackingMethod: .OnNothing,
-                                                methodTracking: .Manual)
+    // Method with Local resource path
+    public func beginTracking(pathForConfigFile:String?) -> Void {
+        self.beginTracking(pathForConfigFile:pathForConfigFile, stateTrackingType:.Manual, methodTrackingType:.Manual)
     }
     
-    public func startTrackingWithConfigurationFile(pathForFile:String?,
-                                                   stateTracking:TrackingTypes?,
-                                                   stateTrackingMethod:StateTrackingMethod?,
-                                                   methodTracking:TrackingTypes?) -> Void {
+    public func beginTracking(pathForConfigFile:String?,
+                              stateTrackingType stateType:TrackingTypes?,
+                              methodTrackingType methodType:TrackingTypes?) -> Void {
         
-        self.configurationFilePath = pathForFile
-        self.stateTrackingMethod = stateTrackingMethod
-        
-        self.createConfigParser(configurations: self.configurationDictionary() as? Dictionary<String, AnyObject>)
-        self.createNotificationListener()
-        self.configureSwizzling(stateTracking: stateTracking,
-                                stateTrackingMethod: stateTrackingMethod,
-                                methodTracking: methodTracking)
+        self.configurationFilePath = pathForConfigFile
+        self.createConfigParser(configurations:self.configurationDictionary() as? Dictionary<String, AnyObject>)
+        self.configureSwizzling(stateTracking:stateType, methodTracking:methodType)
     }
-   
-    public func startTrackingWithConfiguration(configuration:Dictionary<String, AnyObject>?) -> Void {
-        self.startTrackingWithConfiguration(configuration: configuration,
-                                            stateTracking: .Manual,
-                                            stateTrackingMethod: .OnNothing,
-                                            methodTracking: .Manual)
+
+    // Method with configurations as Dictionary
+    public func beginTracking(configuration:Dictionary<String, AnyObject>?) -> Void {
+        self.beginTracking(configuration:configuration, stateTrackingType:.Manual, methodTrackingType:.Manual)
     }
     
-    public func startTrackingWithConfiguration(configuration:Dictionary<String, AnyObject>?,
-                                               stateTracking:TrackingTypes?,
-                                               stateTrackingMethod:StateTrackingMethod?,
-                                               methodTracking:TrackingTypes?) -> Void {
+    public func beginTracking(configuration:Dictionary<String, AnyObject>?,
+                              stateTrackingType stateType:TrackingTypes?,
+                              methodTrackingType methodType:TrackingTypes?) -> Void {
         
-        self.stateTrackingMethod = stateTrackingMethod
+        self.createConfigParser(configurations:configuration)
+        self.configureSwizzling(stateTracking:stateType, methodTracking:methodType)
+    }
+    
+    // Support of Objective - C
+    // Swift project not required the below function calls
+    public func beginTracking(pathForConfigFile:String?,
+                              stateTrackingType stateType:String?,
+                              methodTrackingType methodType:String?) -> Void {
         
-        self.createConfigParser(configurations: configuration)
-        self.createNotificationListener()
-        self.configureSwizzling(stateTracking: stateTracking,
-                                stateTrackingMethod: stateTrackingMethod,
-                                methodTracking: methodTracking)
+        self.configurationFilePath = pathForConfigFile
+        self.createConfigParser(configurations:self.configurationDictionary() as? Dictionary<String, AnyObject>)
+        self.configureObjCEventTracking(stateTrackingType: stateType, methodTrackingType: methodType)
+    }
+    
+    public func beginTracking(configuration:Dictionary<String, AnyObject>?,
+                              stateTrackingType stateType:String?,
+                              methodTrackingType methodType:String?) -> Void {
+        
+        self.createConfigParser(configurations:configuration)
+        self.configureObjCEventTracking(stateTrackingType: stateType, methodTrackingType: methodType)
     }
     
     /// Can be called manually for Manual event tracking
     /// **customArguments** is used when an object requires to trigger event with dynamic values
-    public func registerForTracking(appSpecificKeyword:String?,
-                                    customArguments:Dictionary<String, AnyObject>?) -> Void {
+    public func registerForTracking(appSpecificKeyword keyword:String?,
+                                    customArguments arguments:Dictionary<String, AnyObject>?) -> Void {
         
-        self.trackConfigurationForClass(aClass: nil,
-                                        selector: nil,
-                                        stateType: .Event,
-                                        appSpecificKeyword: appSpecificKeyword,
-                                        customArguments: customArguments)
+        self.trackConfigurationForClass(aClass:nil,
+                                        withSelector:nil,
+                                        ofStateType:.Event,
+                                        havingAppSpecificKeyword:keyword,
+                                        withCustomArguments:arguments)
     }
     
     /// Used to receive the crashlog events
@@ -137,69 +130,77 @@ public class ATTAnalytics: NSObject {
                 notificationObject["crash_report"] = crashLogData as AnyObject?
                 notificationObject["app_info"] = self.appInfo() as AnyObject?
                 
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: ATTAnalytics.CrashTrackingNotification),
-                                                object: notificationObject)
+                NotificationCenter.default.post(name:NSNotification.Name(rawValue:ATTAnalytics.CrashTrackingNotification),
+                                                object:notificationObject)
             }
         }
     }
     
     // MARK: Private methods
-    private func createConfigParser(configurations:Dictionary<String, AnyObject>?) -> Void{
-        self.configParser = nil
-        self.configParser = ATTConfigParser(configurations: configurations)
-    }
-    
-    private func createNotificationListener() -> Void {
-        self.notificationListener = nil
-        self.notificationListener = ATTNotificationListener()
-    }
-    
-    private func configureSwizzling(stateTracking:TrackingTypes?,
-                                    stateTrackingMethod:StateTrackingMethod?,
-                                    methodTracking:TrackingTypes?) -> Void {
-        
-        if stateTracking == .Automatic && stateTrackingMethod != .OnNothing {
-            self.swizzileLifeCycleMethods()
+    private func configureObjCEventTracking(stateTrackingType stateType:String?,
+                                            methodTrackingType methodType:String?) -> Void {
+        var sType:TrackingTypes = .Manual
+        var mType:TrackingTypes = .Manual
+        if stateType == ATTAnalytics.TrackingTypeAuto {
+            sType = .Automatic
         }
         
-        if methodTracking == .Automatic {
+        if methodType == ATTAnalytics.TrackingTypeAuto {
+            mType = .Automatic
+        }
+        
+        self.configureSwizzling(stateTracking:sType, methodTracking:mType)
+    }
+    
+    private func createConfigParser(configurations:Dictionary<String, AnyObject>?) -> Void{
+        self.configParser = nil
+        self.configParser = ATTConfigParser(configurations:configurations)
+    }
+    
+    private func configureSwizzling(stateTracking state:TrackingTypes?,
+                                    methodTracking method:TrackingTypes?) -> Void {        
+        if state == .Automatic {
+            self.swizzileLifecycleMethodImplementation()
+        }
+        
+        if method == .Automatic {
             self.swizzileCustomMethods()
         }
     }
     
     // Triggered for state changes
     private func triggerEventForTheVisibleViewController(viewController:UIViewController) -> Void {
-        self.trackConfigurationForClass(aClass: viewController.classForCoder,
-                                        selector: self.stateChangeTrackingSelector,
-                                        stateType: .State,
-                                        appSpecificKeyword: nil,
-                                        customArguments: nil)
+        self.trackConfigurationForClass(aClass:viewController.classForCoder,
+                                        withSelector:self.stateChangeTrackingSelector,
+                                        ofStateType:.State,
+                                        havingAppSpecificKeyword:nil,
+                                        withCustomArguments:nil)
     }
     
     // Triggered for method invocation
     private func triggerEventForTheVisibleViewController(originalClass:AnyClass?, selector:Selector?) -> Void {
-        self.trackConfigurationForClass(aClass: originalClass,
-                                        selector: selector,
-                                        stateType: .Event,
-                                        appSpecificKeyword: nil,
-                                        customArguments: nil)
+        self.trackConfigurationForClass(aClass:originalClass,
+                                        withSelector:selector,
+                                        ofStateType:.Event,
+                                        havingAppSpecificKeyword:nil,
+                                        withCustomArguments:nil)
     }
     
     // Looping through the configuration to find out the matching paramters and values
     private func trackConfigurationForClass(aClass:AnyClass?,
-                                            selector:Selector?,
-                                            stateType:StateTypes?,
-                                            appSpecificKeyword:String?,
-                                            customArguments:Dictionary<String, AnyObject>?) -> Void {
+                                            withSelector selector:Selector?,
+                                            ofStateType type:StateTypes?,
+                                            havingAppSpecificKeyword keyword:String?,
+                                            withCustomArguments arguments:Dictionary<String, AnyObject>?) -> Void {
         
-        let paramters = self.configurationForClass(aClass: aClass,
-                                                   selector: selector,
-                                                   stateType: stateType,
-                                                   appSpecificKeyword: appSpecificKeyword)
+        let paramters = self.configurationForClass(aClass:aClass,
+                                                   withSelector:selector,
+                                                   ofStateType:type,
+                                                   havingAppSpecificKeyword:keyword)
         
         if paramters != nil && (paramters?.count)! > 0 {
-            self.registeredAnEvent(configuration: paramters,
-                                   customArguments: customArguments)
+            self.registeredAnEvent(configuration:paramters,
+                                   customArguments:arguments)
         }
     }
     
@@ -218,20 +219,20 @@ public class ATTAnalytics: NSObject {
     }
     
     private func configurationForClass(aClass:AnyClass?,
-                                       selector:Selector?,
-                                       stateType:StateTypes?,
-                                       appSpecificKeyword:String?) -> Array<AnyObject>? {
+                                       withSelector selector:Selector?,
+                                       ofStateType type:StateTypes?,
+                                       havingAppSpecificKeyword keyword:String?) -> Array<AnyObject>? {
         var state = ""
-        if stateType == .State {
+        if type == .State {
             state = ATTConfigConstants.AgentKeyTypeState
         } else {
             state = ATTConfigConstants.AgentKeyTypeEvent
         }
         
-        let resultConfig = (self.configParser?.findConfigurationForClass(aClass: aClass,
-                                                                         selector: selector,
-                                                                         stateType: state,
-                                                                         appSpecificKeyword: appSpecificKeyword))! as Array<AnyObject>
+        let resultConfig = (self.configParser?.findConfigurationForClass(aClass:aClass,
+                                                                         withSelector:selector,
+                                                                         ofStateType:state,
+                                                                         havingAppSpecificKeyword:keyword))! as Array<AnyObject>
         return resultConfig
     }
     
@@ -245,8 +246,8 @@ public class ATTAnalytics: NSObject {
         notificationObject["custom_arguments"] = customArguments as AnyObject?
         notificationObject["app_info"] = self.appInfo() as AnyObject?
         
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: ATTAnalytics.TrackingNotification),
-                                        object: notificationObject)
+        NotificationCenter.default.post(name:NSNotification.Name(rawValue:ATTAnalytics.TrackingNotification),
+                                        object:notificationObject)
     }
     
     private func appInfo() -> Dictionary<String, AnyObject>? {
@@ -268,22 +269,22 @@ public class ATTAnalytics: NSObject {
     
     // MARK: Crashlog file manipulations
     private func readLastSavedCrashLog() -> String? {
-        let fileName = self.fileNameForLogFileOn(onDate: Date())
+        let fileName = self.fileNameForLogFileOn(onDate:Date())
         let filePath = self.cacheDirectory.appending(fileName!)
         var dataString:String = String()
         
         self.clearYesterdaysCrashLog()
         
-        if self.fileManager.fileExists(atPath: filePath) {
-            if let crashLogData = NSData(contentsOfFile: filePath) {
-                dataString = NSString(data: crashLogData as Data, encoding:String.Encoding.utf8.rawValue) as! String
+        if self.fileManager.fileExists(atPath:filePath) {
+            if let crashLogData = NSData(contentsOfFile:filePath) {
+                dataString = NSString(data:crashLogData as Data, encoding:String.Encoding.utf8.rawValue) as! String
             }
         }
         
         // To avoid complexity in reading and parsing the crash log, keeping only the last crash information
         // For allowing this, previous crash logs are deleted after reading
-        self.removeCrashLogOn(onDate: Date())
-        self.createCrashLogFile(atPath: filePath)
+        self.removeCrashLogOn(onDate:Date())
+        self.createCrashLogFile(atPath:filePath)
         return dataString
     }
     
@@ -292,53 +293,34 @@ public class ATTAnalytics: NSObject {
     // Date is used in order to extend the feature of multiple crash logs
     private func clearYesterdaysCrashLog() -> Void {
         let calendar = Calendar.current
-        let yesterday = calendar.date(byAdding: .day, value: -1, to: Date())
+        let yesterday = calendar.date(byAdding:.day, value:-1, to:Date())
         
         self.removeCrashLogOn(onDate: yesterday)
     }
     
     private func createCrashLogFile(atPath: String) -> Void {
-        freopen(atPath.cString(using: String.Encoding.utf8), "a+", stderr)
+        freopen(atPath.cString(using:String.Encoding.utf8), "a+", stderr)
     }
     
     private func removeCrashLogOn(onDate: Date?) -> Void {
-        let filePath = self.cacheDirectory.appending(self.fileNameForLogFileOn(onDate: onDate)!)
-        try?self.fileManager.removeItem(atPath: filePath)
+        let filePath = self.cacheDirectory.appending(self.fileNameForLogFileOn(onDate:onDate)!)
+        try?self.fileManager.removeItem(atPath:filePath)
     }
     
     private func fileNameForLogFileOn(onDate:Date?) -> String? {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd-MM-yyyy"
         
-        return "CrashlogAsOn-".appending(formatter.string(from: onDate!).appending(".log"))
+        return "CrashlogAsOn-".appending(formatter.string(from:onDate!).appending(".log"))
     }
     
     // MARK: Automatic screen change tracking
     // MUST BE CALLED ONLY ONCE
-    private func swizzileLifeCycleMethods() -> Void {
-        self.swizzileLifecycleMethodImplementation()
-    }
-    
     private func swizzileLifecycleMethodImplementation() -> Void {
         let originalClass = UIViewController.self
         let swizzilableClass = ATTAnalytics.self
-        let swizzilableSelector = #selector(ATTAnalytics.trackScreenChange(_:))
-        
-        if self.stateTrackingMethod == .OnViewWillAppear {
-            self.stateChangeTrackingSelector = #selector(UIViewController.viewWillAppear(_:))
-        }
-        
-        if self.stateTrackingMethod == .OnViewWillDisappear {
-            self.stateChangeTrackingSelector = #selector(UIViewController.viewWillDisappear(_:))
-        }
-        
-        if self.stateTrackingMethod == .OnViewDidAppear {
-            self.stateChangeTrackingSelector = #selector(UIViewController.viewDidAppear(_:))
-        }
-        
-        if self.stateTrackingMethod == .OnViewDidDisappear {
-            self.stateChangeTrackingSelector = #selector(UIViewController.viewDidDisappear(_:))
-        }
+        let swizzilableSelector = #selector(ATTAnalytics.trackScreenChange(_:))        
+        self.stateChangeTrackingSelector = #selector(UIViewController.viewDidAppear(_:))
         
         let originalMethod = class_getInstanceMethod(originalClass, self.stateChangeTrackingSelector!)
         let swizzledMethod = class_getInstanceMethod(swizzilableClass, swizzilableSelector)
@@ -358,7 +340,7 @@ public class ATTAnalytics: NSObject {
     
     func autoTrackScreenChanges(viewController:NSObject?) -> Void {
         if let topViewController = viewController as? UIViewController {
-            self.triggerEventForTheVisibleViewController(viewController: topViewController)
+            self.triggerEventForTheVisibleViewController(viewController:topViewController)
         }
     }
     
@@ -377,20 +359,20 @@ public class ATTAnalytics: NSObject {
     }
     
     // Swizzled method which will be replacing the original UIApplication's sendAction method
-    func trackIBActionInvocation(_ action: Selector, to target: Any?, from sender: Any?, for event: UIEvent?) -> Void {
+    func trackIBActionInvocation(_ action:Selector, to target:Any?, from sender:Any?, for event:UIEvent?) -> Void {
         if let originalObject = target as? NSObject {
             let originalClass:AnyClass = originalObject.classForCoder as AnyClass
-            ATTAnalytics.helper.autoTrackMethodInvocationForClass(originalClass: originalClass, selector: action)
+            ATTAnalytics.helper.autoTrackMethodInvocationForClass(originalClass:originalClass, selector:action)
         }
         
         // Inorder to call the original implementation, perform the 3 below steps
         ATTAnalytics.helper.swizzileCustomMethods()
-        UIApplication.shared.sendAction(action, to: target, from: sender, for: event)
+        UIApplication.shared.sendAction(action, to:target, from:sender, for:event)
         ATTAnalytics.helper.swizzileCustomMethods()
     }
     
     func autoTrackMethodInvocationForClass(originalClass:AnyClass?, selector:Selector?) -> Void {
-        self.triggerEventForTheVisibleViewController(originalClass: originalClass, selector: selector)
+        self.triggerEventForTheVisibleViewController(originalClass:originalClass, selector:selector)
     }
 }
 

@@ -11,7 +11,6 @@
 		F927956A1E1F6AB500C7B0EA /* ATTAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92795661E1F6AB500C7B0EA /* ATTAnalytics.swift */; };
 		F927956B1E1F6AB500C7B0EA /* ATTConfigConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92795671E1F6AB500C7B0EA /* ATTConfigConstants.swift */; };
 		F927956C1E1F6AB500C7B0EA /* ATTConfigParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92795681E1F6AB500C7B0EA /* ATTConfigParser.swift */; };
-		F927956D1E1F6AB500C7B0EA /* ATTNotificationListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92795691E1F6AB500C7B0EA /* ATTNotificationListener.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,7 +20,6 @@
 		F92795661E1F6AB500C7B0EA /* ATTAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATTAnalytics.swift; sourceTree = "<group>"; };
 		F92795671E1F6AB500C7B0EA /* ATTConfigConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATTConfigConstants.swift; sourceTree = "<group>"; };
 		F92795681E1F6AB500C7B0EA /* ATTConfigParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATTConfigParser.swift; sourceTree = "<group>"; };
-		F92795691E1F6AB500C7B0EA /* ATTNotificationListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATTNotificationListener.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +55,6 @@
 				F92795661E1F6AB500C7B0EA /* ATTAnalytics.swift */,
 				F92795671E1F6AB500C7B0EA /* ATTConfigConstants.swift */,
 				F92795681E1F6AB500C7B0EA /* ATTConfigParser.swift */,
-				F92795691E1F6AB500C7B0EA /* ATTNotificationListener.swift */,
 				F927955E1E1F6A8F00C7B0EA /* ATTAnalytics.h */,
 				F927955F1E1F6A8F00C7B0EA /* Info.plist */,
 			);
@@ -146,7 +143,6 @@
 			files = (
 				F927956A1E1F6AB500C7B0EA /* ATTAnalytics.swift in Sources */,
 				F927956B1E1F6AB500C7B0EA /* ATTConfigConstants.swift in Sources */,
-				F927956D1E1F6AB500C7B0EA /* ATTNotificationListener.swift in Sources */,
 				F927956C1E1F6AB500C7B0EA /* ATTConfigParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -311,6 +307,7 @@
 				F92795651E1F6A8F00C7B0EA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

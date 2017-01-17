@@ -14,6 +14,3 @@ FOUNDATION_EXPORT double ATTAnalyticsVersionNumber;
 //! Project version string for ATTAnalytics.
 FOUNDATION_EXPORT const unsigned char ATTAnalyticsVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <ATTAnalytics/PublicHeader.h>
-
-

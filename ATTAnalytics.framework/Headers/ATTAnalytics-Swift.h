@@ -125,23 +125,26 @@ SWIFT_CLASS("_TtC12ATTAnalytics12ATTAnalytics")
 @interface ATTAnalytics : NSObject
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull TrackingNotification;)
 + (NSString * _Nonnull)TrackingNotification;
-/**
-  This will be used if the Helper class need to receive Notifications on Crashes
-*/
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull CrashTrackingNotification;)
 + (NSString * _Nonnull)CrashTrackingNotification;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull TrackingTypeAuto;)
++ (NSString * _Nonnull)TrackingTypeAuto;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull TrackingTypeManual;)
++ (NSString * _Nonnull)TrackingTypeManual;
 /**
   Shared Object
 */
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) ATTAnalytics * _Nonnull helper;)
 + (ATTAnalytics * _Nonnull)helper;
-- (void)startTrackingWithConfigurationFileWithPathForFile:(NSString * _Nullable)pathForFile;
-- (void)startTrackingWithConfigurationWithConfiguration:(NSDictionary<NSString *, id> * _Nullable)configuration;
+- (void)beginTrackingWithPathForConfigFile:(NSString * _Nullable)pathForConfigFile;
+- (void)beginTrackingWithConfiguration:(NSDictionary<NSString *, id> * _Nullable)configuration;
+- (void)beginTrackingWithPathForConfigFile:(NSString * _Nullable)pathForConfigFile stateTrackingType:(NSString * _Nullable)stateType methodTrackingType:(NSString * _Nullable)methodType;
+- (void)beginTrackingWithConfiguration:(NSDictionary<NSString *, id> * _Nullable)configuration stateTrackingType:(NSString * _Nullable)stateType methodTrackingType:(NSString * _Nullable)methodType;
 /**
   Can be called manually for Manual event tracking
   <em>customArguments</em> is used when an object requires to trigger event with dynamic values
 */
-- (void)registerForTrackingWithAppSpecificKeyword:(NSString * _Nullable)appSpecificKeyword customArguments:(NSDictionary<NSString *, id> * _Nullable)customArguments;
+- (void)registerForTrackingWithAppSpecificKeyword:(NSString * _Nullable)keyword customArguments:(NSDictionary<NSString *, id> * _Nullable)arguments;
 /**
   Used to receive the crashlog events
   Must be called once inside AppDelegate’s <em>applicationDidBecomeActive</em>

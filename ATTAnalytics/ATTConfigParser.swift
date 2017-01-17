@@ -29,9 +29,9 @@ class ATTConfigParser: NSObject {
     
     // MARK: Public methods
     func findConfigurationForClass(aClass:AnyClass?,
-                                   selector:Selector?,
-                                   stateType:String?,
-                                   appSpecificKeyword:String?) -> Array<AnyObject>? {
+                                   withSelector selector:Selector?,
+                                   ofStateType type:String?,
+                                   havingAppSpecificKeyword keyword:String?) -> Array<AnyObject>? {
     
         var resultArray:Array = Array<AnyObject>()
         if self.configurations != nil {
@@ -43,18 +43,18 @@ class ATTConfigParser: NSObject {
                         let dataField:Array? = eachAgent[ATTConfigConstants.AgentDataField] as? Array<AnyObject>
                         var resultConfig:Dictionary<String, AnyObject>?
                         
-                        if stateType == ATTConfigConstants.AgentKeyTypeState {
-                            resultConfig = self.stateConfigFromDataField(dataField: dataField,
-                                                                         agent: eachAgent as? Dictionary<String, AnyObject>,
-                                                                         aClass: aClass,
-                                                                         selector: selector,
-                                                                         appSpecificKeyword: appSpecificKeyword)
+                        if type == ATTConfigConstants.AgentKeyTypeState {
+                            resultConfig = self.stateConfigFromDataField(dataField:dataField,
+                                                                         agent:eachAgent as? Dictionary<String, AnyObject>,
+                                                                         aClass:aClass,
+                                                                         selector:selector,
+                                                                         appSpecificKeyword:keyword)
                         } else {
-                            resultConfig = self.eventConfigFromDataField(dataField: dataField,
-                                                                         agent: eachAgent as? Dictionary<String, AnyObject>,
-                                                                         aClass: aClass,
-                                                                         selector: selector,
-                                                                         appSpecificKeyword: appSpecificKeyword)
+                            resultConfig = self.eventConfigFromDataField(dataField:dataField,
+                                                                         agent:eachAgent as? Dictionary<String, AnyObject>,
+                                                                         aClass:aClass,
+                                                                         selector:selector,
+                                                                         appSpecificKeyword:keyword)
                         }
                         
                         if resultConfig != nil && resultConfig!.count > 0 {
@@ -84,8 +84,8 @@ class ATTConfigParser: NSObject {
             
             if keyType == ATTConfigConstants.AgentKeyTypeState {
                 if appSpecificClass != nil && aClass != nil && appSpecificClass == "\(aClass!)" {
-                    let result = self.appendAgentDetails(agent: agent,
-                                                         dataField: eachData as? Dictionary<String, AnyObject>)
+                    let result = self.appendAgentDetails(agent:agent,
+                                                         dataField:eachData as? Dictionary<String, AnyObject>)
                     resultConfig = result!
                     break
                 }
@@ -118,15 +118,15 @@ class ATTConfigParser: NSObject {
                     && appSpecificClass == "\(aClass!)"
                     && appSpecificMethod == "\(selector!)"{
                     
-                    let result = self.appendAgentDetails(agent: agent,
-                                                         dataField: eachData as? Dictionary<String, AnyObject>)
+                    let result = self.appendAgentDetails(agent:agent,
+                                                         dataField:eachData as? Dictionary<String, AnyObject>)
                     resultConfig = result!
                     break
                     
                 } else {
                     if appSpecificKey != nil && appSpecificKey == appSpecificKeyword {
-                        let result = self.appendAgentDetails(agent: agent,
-                                                             dataField: eachData as? Dictionary<String, AnyObject>)
+                        let result = self.appendAgentDetails(agent:agent,
+                                                             dataField:eachData as? Dictionary<String, AnyObject>)
                         resultConfig = result!
                         break
                     }
