@@ -116,10 +116,12 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #endif
 #if defined(__has_feature) && __has_feature(modules)
 @import ObjectiveC;
+@import CoreData;
 #endif
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
+@class ATTCustomEvent;
 
 SWIFT_CLASS("_TtC12ATTAnalytics12ATTAnalytics")
 @interface ATTAnalytics : NSObject
@@ -138,19 +140,68 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) ATTAnalytics
 + (ATTAnalytics * _Nonnull)helper;
 - (void)beginTrackingWithPathForConfigFile:(NSString * _Nullable)pathForConfigFile;
 - (void)beginTrackingWithConfiguration:(NSDictionary<NSString *, id> * _Nullable)configuration;
-- (void)beginTrackingWithPathForConfigFile:(NSString * _Nullable)pathForConfigFile stateTrackingType:(NSString * _Nullable)stateType methodTrackingType:(NSString * _Nullable)methodType;
-- (void)beginTrackingWithConfiguration:(NSDictionary<NSString *, id> * _Nullable)configuration stateTrackingType:(NSString * _Nullable)stateType methodTrackingType:(NSString * _Nullable)methodType;
+- (void)beginTrackingWithPathForConfigFile:(NSString * _Nullable)pathForConfigFile stateTrackingType:(NSString * _Nullable)stateType actionTrackingType:(NSString * _Nullable)methodType;
+- (void)beginTrackingWithConfiguration:(NSDictionary<NSString *, id> * _Nullable)configuration stateTrackingType:(NSString * _Nullable)stateType actionTrackingType:(NSString * _Nullable)methodType;
 /**
   Can be called manually for Manual event tracking
   <em>customArguments</em> is used when an object requires to trigger event with dynamic values
 */
-- (void)registerForTrackingWithAppSpecificKeyword:(NSString * _Nullable)keyword customArguments:(NSDictionary<NSString *, id> * _Nullable)arguments;
+- (void)registerForTrackingWithAppSpecificKeyword:(NSString * _Nullable)keyword dataURL:(NSString * _Nullable)url customArguments:(NSDictionary<NSString *, id> * _Nullable)arguments customEvent:(ATTCustomEvent * _Nullable)event;
 /**
   Used to receive the crashlog events
   Must be called once inside AppDelegate’s <em>applicationDidBecomeActive</em>
 */
 - (void)registerForCrashLogging;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC12ATTAnalytics14ATTCustomEvent")
+@interface ATTCustomEvent : NSObject
+- (void)eventStarted;
+- (void)eventFinished;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class NSEntityDescription;
+@class NSManagedObjectContext;
+
+SWIFT_CLASS_NAMED("Events")
+@interface Events : NSManagedObject
+- (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class NSData;
+@class NSDate;
+
+@interface Events (SWIFT_EXTENSION(ATTAnalytics))
+@property (nonatomic, strong) NSData * _Nullable customParam;
+@property (nonatomic, copy) NSString * _Nullable dataURL;
+@property (nonatomic) double eventDuration;
+@property (nonatomic, copy) NSString * _Nullable eventName;
+@property (nonatomic, strong) NSDate * _Nullable eventStartTime;
+@property (nonatomic, copy) NSString * _Nullable eventType;
+@property (nonatomic) double latitude;
+@property (nonatomic) double longitude;
+@property (nonatomic, copy) NSString * _Nullable screenViewID;
+@end
+
+
+SWIFT_CLASS_NAMED("Screen")
+@interface Screen : NSManagedObject
+- (nonnull instancetype)initWithEntity:(NSEntityDescription * _Nonnull)entity insertIntoManagedObjectContext:(NSManagedObjectContext * _Nullable)context OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+@interface Screen (SWIFT_EXTENSION(ATTAnalytics))
+@property (nonatomic) double latitude;
+@property (nonatomic) double longitude;
+@property (nonatomic, copy) NSString * _Nullable presentScreen;
+@property (nonatomic, copy) NSString * _Nullable previousScreen;
+@property (nonatomic, copy) NSString * _Nullable screenViewID;
+@property (nonatomic) double screenWatchDuration;
+@property (nonatomic, strong) NSDate * _Nullable screenWatchedTime;
+@property (nonatomic) BOOL syncStatus;
 @end
 
 #pragma clang diagnostic pop

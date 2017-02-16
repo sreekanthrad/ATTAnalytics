@@ -11,6 +11,20 @@
 		F927956A1E1F6AB500C7B0EA /* ATTAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92795661E1F6AB500C7B0EA /* ATTAnalytics.swift */; };
 		F927956B1E1F6AB500C7B0EA /* ATTConfigConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92795671E1F6AB500C7B0EA /* ATTConfigConstants.swift */; };
 		F927956C1E1F6AB500C7B0EA /* ATTConfigParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92795681E1F6AB500C7B0EA /* ATTConfigParser.swift */; };
+		F9664B2A1E5560DA00189300 /* ATTCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9664B1D1E5560DA00189300 /* ATTCoreDataManager.swift */; };
+		F9664B2B1E5560DA00189300 /* ATTCustomEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9664B1E1E5560DA00189300 /* ATTCustomEvent.swift */; };
+		F9664B2C1E5560DA00189300 /* ATTDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F9664B1F1E5560DA00189300 /* ATTDB.xcdatamodeld */; };
+		F9664B2D1E5560DA00189300 /* ATTEventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9664B211E5560DA00189300 /* ATTEventModel.swift */; };
+		F9664B2E1E5560DA00189300 /* ATTFlushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9664B221E5560DA00189300 /* ATTFlushManager.swift */; };
+		F9664B2F1E5560DA00189300 /* ATTLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9664B231E5560DA00189300 /* ATTLocationManager.swift */; };
+		F9664B301E5560DA00189300 /* ATTMiddlewareSchemaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9664B241E5560DA00189300 /* ATTMiddlewareSchemaManager.swift */; };
+		F9664B311E5560DA00189300 /* ATTScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9664B251E5560DA00189300 /* ATTScreenViewModel.swift */; };
+		F9664B321E5560DA00189300 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9664B261E5560DA00189300 /* Container.swift */; };
+		F9664B331E5560DA00189300 /* ContainerOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9664B271E5560DA00189300 /* ContainerOperation.swift */; };
+		F9664B341E5560DA00189300 /* ContainerRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9664B281E5560DA00189300 /* ContainerRequest.swift */; };
+		F9664B351E5560DA00189300 /* ContainerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9664B291E5560DA00189300 /* ContainerResponse.swift */; };
+		F9664B371E5560FB00189300 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9664B361E5560FB00189300 /* CoreData.framework */; };
+		F97ECECE1E2F811A0089038F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F97ECECD1E2F811A0089038F /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +34,20 @@
 		F92795661E1F6AB500C7B0EA /* ATTAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATTAnalytics.swift; sourceTree = "<group>"; };
 		F92795671E1F6AB500C7B0EA /* ATTConfigConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATTConfigConstants.swift; sourceTree = "<group>"; };
 		F92795681E1F6AB500C7B0EA /* ATTConfigParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATTConfigParser.swift; sourceTree = "<group>"; };
+		F9664B1D1E5560DA00189300 /* ATTCoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATTCoreDataManager.swift; sourceTree = "<group>"; };
+		F9664B1E1E5560DA00189300 /* ATTCustomEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATTCustomEvent.swift; sourceTree = "<group>"; };
+		F9664B201E5560DA00189300 /* ATTDB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ATTDB.xcdatamodel; sourceTree = "<group>"; };
+		F9664B211E5560DA00189300 /* ATTEventModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATTEventModel.swift; sourceTree = "<group>"; };
+		F9664B221E5560DA00189300 /* ATTFlushManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATTFlushManager.swift; sourceTree = "<group>"; };
+		F9664B231E5560DA00189300 /* ATTLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATTLocationManager.swift; sourceTree = "<group>"; };
+		F9664B241E5560DA00189300 /* ATTMiddlewareSchemaManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATTMiddlewareSchemaManager.swift; sourceTree = "<group>"; };
+		F9664B251E5560DA00189300 /* ATTScreenViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ATTScreenViewModel.swift; sourceTree = "<group>"; };
+		F9664B261E5560DA00189300 /* Container.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
+		F9664B271E5560DA00189300 /* ContainerOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerOperation.swift; sourceTree = "<group>"; };
+		F9664B281E5560DA00189300 /* ContainerRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerRequest.swift; sourceTree = "<group>"; };
+		F9664B291E5560DA00189300 /* ContainerResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerResponse.swift; sourceTree = "<group>"; };
+		F9664B361E5560FB00189300 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		F97ECECD1E2F811A0089038F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +55,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9664B371E5560FB00189300 /* CoreData.framework in Frameworks */,
+				F97ECECE1E2F811A0089038F /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,6 +68,7 @@
 			children = (
 				F927955D1E1F6A8F00C7B0EA /* ATTAnalytics */,
 				F927955C1E1F6A8F00C7B0EA /* Products */,
+				F97ECECC1E2F811A0089038F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -52,6 +83,18 @@
 		F927955D1E1F6A8F00C7B0EA /* ATTAnalytics */ = {
 			isa = PBXGroup;
 			children = (
+				F9664B1D1E5560DA00189300 /* ATTCoreDataManager.swift */,
+				F9664B1E1E5560DA00189300 /* ATTCustomEvent.swift */,
+				F9664B1F1E5560DA00189300 /* ATTDB.xcdatamodeld */,
+				F9664B211E5560DA00189300 /* ATTEventModel.swift */,
+				F9664B221E5560DA00189300 /* ATTFlushManager.swift */,
+				F9664B231E5560DA00189300 /* ATTLocationManager.swift */,
+				F9664B241E5560DA00189300 /* ATTMiddlewareSchemaManager.swift */,
+				F9664B251E5560DA00189300 /* ATTScreenViewModel.swift */,
+				F9664B261E5560DA00189300 /* Container.swift */,
+				F9664B271E5560DA00189300 /* ContainerOperation.swift */,
+				F9664B281E5560DA00189300 /* ContainerRequest.swift */,
+				F9664B291E5560DA00189300 /* ContainerResponse.swift */,
 				F92795661E1F6AB500C7B0EA /* ATTAnalytics.swift */,
 				F92795671E1F6AB500C7B0EA /* ATTConfigConstants.swift */,
 				F92795681E1F6AB500C7B0EA /* ATTConfigParser.swift */,
@@ -59,6 +102,15 @@
 				F927955F1E1F6A8F00C7B0EA /* Info.plist */,
 			);
 			path = ATTAnalytics;
+			sourceTree = "<group>";
+		};
+		F97ECECC1E2F811A0089038F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F9664B361E5560FB00189300 /* CoreData.framework */,
+				F97ECECD1E2F811A0089038F /* CoreLocation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,9 +193,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9664B331E5560DA00189300 /* ContainerOperation.swift in Sources */,
 				F927956A1E1F6AB500C7B0EA /* ATTAnalytics.swift in Sources */,
+				F9664B321E5560DA00189300 /* Container.swift in Sources */,
+				F9664B341E5560DA00189300 /* ContainerRequest.swift in Sources */,
+				F9664B311E5560DA00189300 /* ATTScreenViewModel.swift in Sources */,
+				F9664B2D1E5560DA00189300 /* ATTEventModel.swift in Sources */,
 				F927956B1E1F6AB500C7B0EA /* ATTConfigConstants.swift in Sources */,
+				F9664B2A1E5560DA00189300 /* ATTCoreDataManager.swift in Sources */,
+				F9664B2C1E5560DA00189300 /* ATTDB.xcdatamodeld in Sources */,
+				F9664B2F1E5560DA00189300 /* ATTLocationManager.swift in Sources */,
 				F927956C1E1F6AB500C7B0EA /* ATTConfigParser.swift in Sources */,
+				F9664B2E1E5560DA00189300 /* ATTFlushManager.swift in Sources */,
+				F9664B351E5560DA00189300 /* ContainerResponse.swift in Sources */,
+				F9664B301E5560DA00189300 /* ATTMiddlewareSchemaManager.swift in Sources */,
+				F9664B2B1E5560DA00189300 /* ATTCustomEvent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +374,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F9664B1F1E5560DA00189300 /* ATTDB.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F9664B201E5560DA00189300 /* ATTDB.xcdatamodel */,
+			);
+			currentVersion = F9664B201E5560DA00189300 /* ATTDB.xcdatamodel */;
+			path = ATTDB.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = F92795521E1F6A8F00C7B0EA /* Project object */;
 }

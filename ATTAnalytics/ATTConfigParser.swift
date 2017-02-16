@@ -10,10 +10,10 @@
 import UIKit
 
 class ATTConfigParser: NSObject {
-    // MARK: Private members
+    // MARK: - Private members
     var configurations:Dictionary<String, AnyObject>?
     
-    // MARK: deinit
+    // MARK: - deinit
     deinit {
         self.configurations = nil
     }
@@ -27,7 +27,7 @@ class ATTConfigParser: NSObject {
         self.configurations = configurations
     }
     
-    // MARK: Public methods
+    // MARK: - Public methods
     func findConfigurationForClass(aClass:AnyClass?,
                                    withSelector selector:Selector?,
                                    ofStateType type:String?,
@@ -68,7 +68,7 @@ class ATTConfigParser: NSObject {
         return resultArray
     }
     
-    // MARK: Private methods
+    // MARK: - Private methods
     // Filtering state change configurations
     private func stateConfigFromDataField(dataField:Array<AnyObject>?,
                                           agent:Dictionary<String, AnyObject>?,

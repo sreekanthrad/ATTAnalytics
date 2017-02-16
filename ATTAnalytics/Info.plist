@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>ATTAnalytics would like to use your location to improve the reporting.Would you like to allow?</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>ATTAnalytics would like to use your location to improve the reporting.Would you like to allow?</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
