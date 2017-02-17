@@ -11,9 +11,19 @@ import CoreData
 
 class ATTCoreDataManager: NSObject {
     // MARK: - Core Data stack
+    lazy var managedObjectModel: NSManagedObjectModel = {
+        let bundlePath = Bundle.main.path(forResource: "ATTBackends", ofType: "bundle")
+        let bundle = Bundle(path: bundlePath!)
+        let modelPath = bundle?.path(forResource:"ATTDB", ofType:"momd")
+        let modelURL = URL(fileURLWithPath: modelPath!)
+        
+        return NSManagedObjectModel(contentsOf: modelURL)!
+    }()
+    
+    
     @available(iOS 10.0, *)
     lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "ATTDB")
+        let container = NSPersistentContainer(name: "ATTDB", managedObjectModel: self.managedObjectModel)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -21,7 +31,7 @@ class ATTCoreDataManager: NSObject {
         })
         return container
     }()
-    
+
     // MARK: Screen view methods
     func createScreenView(screenViewModel:ATTScreenViewModel?) -> Void {
         if screenViewModel != nil {
@@ -76,6 +86,7 @@ class ATTCoreDataManager: NSObject {
     
     func fetchAllScreens() -> Array<AnyObject>? {
         if #available(iOS 10.0, *) {
+            
             let managedContext = self.persistentContainer.viewContext
             let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Screen")
             do {
@@ -84,6 +95,7 @@ class ATTCoreDataManager: NSObject {
             } catch let error as NSError {
                 print("Could not fetch. \(error), \(error.userInfo)")
             }
+
         } else {
             // Fallback on earlier versions
             return nil
@@ -179,7 +191,7 @@ class ATTCoreDataManager: NSObject {
     func saveContext () {
         if #available(iOS 10.0, *) {
             let context = self.persistentContainer.viewContext
-            if context.hasChanges {
+            if (context.hasChanges) {
                 do {
                     try context.save()
                 } catch {                    

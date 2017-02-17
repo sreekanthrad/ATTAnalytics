@@ -9,10 +9,20 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>ATTBackends.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>F927955A1E1F6A8F00C7B0EA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F9C4C4FF1E56C75100131516</key>
 		<dict>
 			<key>primary</key>
 			<true/>
