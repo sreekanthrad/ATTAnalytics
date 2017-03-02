@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "58D98E33FE94E65FA01E2A206873EF9F4E8D6B28",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "8B2C561DA40B4EDC75FBE29D30D8652AA42983E0" : 9223372036854775807,
+    "58D98E33FE94E65FA01E2A206873EF9F4E8D6B28" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "C721D5A8-F5CD-4470-9511-B23278BD4D6C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "8B2C561DA40B4EDC75FBE29D30D8652AA42983E0" : "..\/..",
+    "58D98E33FE94E65FA01E2A206873EF9F4E8D6B28" : "ATTAnalytics\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "ATTAnalytics",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ATTAnalytics.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/sreekanthrad\/ATTAnalytics.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "58D98E33FE94E65FA01E2A206873EF9F4E8D6B28"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/sreekanthradhakrishnan\/attanalytics.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8B2C561DA40B4EDC75FBE29D30D8652AA42983E0"
+    }
+  ]
+}

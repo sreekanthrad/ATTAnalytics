@@ -108,9 +108,9 @@ class ATTMiddlewareSchemaManager: NSObject {
         self.coreDataManager.createScreenView(screenViewModel: self.screenViewModel)
     }
     
-    func updateScreenCloseDetails(previousScreen:String?, screenViewDuration duration:Double?) -> Void {
+    func updateScreenCloseDetails(previousScreen:String?) -> Void {
         self.screenViewModel?.previousScreenName = previousScreen
-        self.screenViewModel?.screeViewDuration = duration
+        self.screenViewModel?.screeViewDuration = Date().timeIntervalSince((self.screenViewModel?.screenViewBeginTime)!)
         self.coreDataManager.updateScreenView(screenViewModel: self.screenViewModel)
     }
     

@@ -43,8 +43,6 @@ public class ATTAnalytics: NSObject {
     private var stateChangeTrackingSelector:Selector?
     private var screenViewStart:Date?
     private var previousScreenViewStart:Date?
-    private var screenViewEnd:Date?
-    private var screenViewDuration:Double?
     private let cacheDirectory = (NSSearchPathForDirectoriesInDomains(.cachesDirectory,
                                                                       .userDomainMask,
                                                                       true)[0] as String).appending("/")
@@ -72,8 +70,7 @@ public class ATTAnalytics: NSObject {
         self.configParser = nil
         self.configurationFilePath = nil
         self.stateChangeTrackingSelector = nil
-        self.screenViewStart = nil
-        self.screenViewEnd = nil
+        self.screenViewStart = nil        
         self.presentViewControllerName = nil
         NotificationCenter.default.removeObserver(self)
     }
@@ -407,7 +404,6 @@ public class ATTAnalytics: NSObject {
     func autoTrackScreenChanges(viewController:NSObject?) -> Void {
         if let topViewController = viewController as? UIViewController {
             self.presentViewControllerName = "\(topViewController.classForCoder)"
-            self.screenViewStart = Date()
             self.triggerEventForTheVisibleViewController(viewController:topViewController)
             self.createNewScreenView(withClass: topViewController.classForCoder)
             self.formulatePreviousScreenActivityObject()
@@ -417,8 +413,6 @@ public class ATTAnalytics: NSObject {
     func presentScreenDisappeared(viewController:NSObject?) -> Void {
         if let topViewController = viewController as? UIViewController {
             if self.presentViewControllerName == "\(topViewController.classForCoder)" {
-                self.screenViewEnd = Date()
-                self.screenViewDuration = self.screenViewEnd?.timeIntervalSince(self.screenViewStart!)
                 self.previousViewControllerName = "\(topViewController.classForCoder)"
                 self.previousScreenViewStart = self.screenViewStart
             }
@@ -427,6 +421,7 @@ public class ATTAnalytics: NSObject {
     
     private func createNewScreenView(withClass aClass:AnyClass?) -> Void {
         self.screenViewID = self.schemaManager.newScreenViewID()
+        self.screenViewStart = Date()
         ATTMiddlewareSchemaManager.manager.startNewScreenViewWithScreenID(screenViewID: self.screenViewID,
                                                                           screenName: self.presentViewControllerName,
                                                                           screenClass:aClass,
@@ -437,8 +432,7 @@ public class ATTAnalytics: NSObject {
         var previousScreen = self.previousViewControllerName
         if previousScreen == nil { previousScreen = "" }
         
-        ATTMiddlewareSchemaManager.manager.updateScreenCloseDetails(previousScreen: previousScreen,
-                                                                    screenViewDuration: self.screenViewDuration)        
+        ATTMiddlewareSchemaManager.manager.updateScreenCloseDetails(previousScreen: previousScreen)
     }
     
     /////////////////////////////////////////////////////////////////////////////////////
